@@ -43,18 +43,19 @@ func (ib *IntervalBit) DoesItFit(time int) bool {
 
 // create an IntervalBit using an intervalString and a position
 func NewIntervalBit(s string, pos int) *IntervalBit {
-	ib := new(IntervalBit)
 	pos = pos-1
-	ib.sInterval = s
-	ib.name = bitsDef[pos].name
-	ib.boundary = bitsDef[pos].boundary
-	ib.duration = bitsDef[pos].duration
-	ib.createIntervals(s)
+	ib := new(IntervalBit)
+	ib.sInterval	= s
+	ib.name		= bitsDef[pos].name
+	ib.boundary	= bitsDef[pos].boundary
+	ib.duration	= bitsDef[pos].duration
+	ib.intervals	= createIntervals(s, ib.boundary)
 	return ib
 }
 
 // create an array of intervals from a string like '6,45-50,*'
-func (ib *IntervalBit) createIntervals(s string) {
+// uses a Bits "boundary" to validate the interval
+func createIntervals(s string, boundary Bits) []Bits {
 	bits := strings.Split(s, ",")
 	allBits := make([]Bits, len(bits))
 	nValidBits := 0
@@ -73,15 +74,15 @@ func (ib *IntervalBit) createIntervals(s string) {
 		} else {
 			thisBit.max, _ = strconv.Atoi(strings.Trim(parts[1], " "))
 		}
-		if ib.boundary.min<=thisBit.min && thisBit.min<=ib.boundary.max &&
-		   ib.boundary.min<=thisBit.max && thisBit.max<=ib.boundary.max {
+		if boundary.min<=thisBit.min && thisBit.min<=boundary.max &&
+		   boundary.min<=thisBit.max && thisBit.max<=boundary.max {
 			allBits[nValidBits] = thisBit
 			nValidBits++
 		} else {
-			fmt.Printf("%s: %s could not fit in boundary %s\n", ib, val, ib.boundary)
+			fmt.Printf("%s could not fit in boundary %s\n", val, boundary)
 		}
 	}
-	ib.intervals = allBits[0:nValidBits]
+	return allBits[0:nValidBits]
 }
 
 // Pretty print for a Bits
@@ -102,4 +103,3 @@ func (ib *IntervalBit) String() string {
 	s = s[0:len(s)-1] + ">"
 	return s
 }
-
