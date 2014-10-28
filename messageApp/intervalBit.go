@@ -32,23 +32,13 @@ var (
 	}
 )
 
-// String conversion for a Bits
-func (b Bits) String() string {
-	if b.all == true {
-		return "*"
+func (ib *IntervalBit) DoesItFit(time int) bool {
+	for _, bit := range ib.intervals {
+		if bit.all == true || (bit.min <= time && time <= bit.max) {
+			return true
+		}
 	}
-	s :=  fmt.Sprintf("%d-%d", b.min, b.max)
-	return s
-}
-
-// String conversion for an IntervalBit
-func (ib *IntervalBit) String() string {
-	s := "<" + ib.name +":"
-	for _, val := range ib.intervals {
-		s += val.String() + ","
-	}
-	s = s[0:len(s)-1] + ">"
-	return s
+	return false
 }
 
 // create an IntervalBit using an intervalString and a position
@@ -60,19 +50,20 @@ func NewIntervalBit(s string, pos int) *IntervalBit {
 	ib.boundary = bitsDef[pos].boundary
 	ib.duration = bitsDef[pos].duration
 	ib.createIntervals(s)
-
 	return ib
 }
 
+// create an array of intervals from a string like '6,45-50,*'
 func (ib *IntervalBit) createIntervals(s string) {
 	bits := strings.Split(s, ",")
-	l := len(bits)
-	allBits := make([]Bits, l)
-	for i, val := range bits {
+	allBits := make([]Bits, len(bits))
+	nValidBits := 0
+	for _, val := range bits {
 		thisBit := Bits{false, 0, 0}
 		if val == "*" {
 			thisBit.all = true
-			allBits[i] = thisBit
+			allBits[nValidBits] = thisBit
+			nValidBits++
 			continue
 		}
 		parts := strings.Split(val, "-")
@@ -82,21 +73,33 @@ func (ib *IntervalBit) createIntervals(s string) {
 		} else {
 			thisBit.max, _ = strconv.Atoi(strings.Trim(parts[1], " "))
 		}
-		// TODO: this should exclude the Bits to be in ib.intervals
-		if ib.boundary.min<=thisBit.min && thisBit.min<=ib.boundary.max && ib.boundary.min<=thisBit.max && thisBit.max<=ib.boundary.max {
-			allBits[i] = thisBit
+		if ib.boundary.min<=thisBit.min && thisBit.min<=ib.boundary.max &&
+		   ib.boundary.min<=thisBit.max && thisBit.max<=ib.boundary.max {
+			allBits[nValidBits] = thisBit
+			nValidBits++
 		} else {
 			fmt.Printf("%s: %s could not fit in boundary %s\n", ib, val, ib.boundary)
 		}
 	}
-	ib.intervals = allBits
+	ib.intervals = allBits[0:nValidBits]
 }
 
-func (ib *IntervalBit)  DoesItFit(time int) bool {
-	for _, bit := range ib.intervals {
-		if bit.all == true || (bit.min <= time && time <= bit.max) {
-			return true
-		}
+// Pretty print for a Bits
+func (b Bits) String() string {
+	if b.all == true {
+		return "*"
 	}
-	return false
+	s :=  fmt.Sprintf("%d-%d", b.min, b.max)
+	return s
 }
+
+// Pretty print for an IntervalBit
+func (ib *IntervalBit) String() string {
+	s := "<" + ib.name +": "
+	for _, val := range ib.intervals {
+		s += val.String() + ","
+	}
+	s = s[0:len(s)-1] + ">"
+	return s
+}
+
