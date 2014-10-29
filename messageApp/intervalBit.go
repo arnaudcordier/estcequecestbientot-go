@@ -32,13 +32,13 @@ var (
 	}
 )
 
-func (ib *IntervalBit) DoesItFit(time int) bool {
+func (ib *IntervalBit) DoesItFit(time int) (Bits, bool) {
 	for _, bit := range ib.intervals {
 		if bit.all == true || (bit.min <= time && time <= bit.max) {
-			return true
+			return bit, true
 		}
 	}
-	return false
+	return Bits{}, false
 }
 
 // create an IntervalBit using an intervalString and a position
