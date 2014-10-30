@@ -79,7 +79,7 @@ func createIntervals(s string, boundary Bits) []Bits {
 			allBits[nValidBits] = thisBit
 			nValidBits++
 		} else {
-			fmt.Printf("%s could not fit in boundary %s\n", val, boundary)
+			fmt.Printf("Error in interval creation: %s could not fit in boundary %s\n", val, boundary)
 		}
 	}
 	return allBits[0:nValidBits]
