@@ -8,26 +8,30 @@ import (
 
 type Interval struct {
 	intervals []*IntervalBit
+	messages *MessageList
 }
 
 // Create a new Interval
-func NewInterval(s string) *Interval {
+func NewInterval(s string, messages *map[string]string ) *Interval {
 	i := new(Interval)
 	i.intervals = createInterval(s)
+	i.messages = NewMessageList(messages)
 	return i
 }
 
-func (i Interval) GetMessage(t time.Time) (string, bool) {
-//	fmt.Printf("%d \n", times)
-	if fits, ok := i.doesItFit(t); ok {
-		return fmt.Sprintf("It fits : %s", fits), true
+func (i *Interval) GetMessage(t time.Time) (string, bool) {
+	// Convert time to array of integer, weekdays from 1 to 7
+	times := []int{t.Year(), int(t.Month()), t.Day(), (int(t.Weekday())+6)%7+1, t.Hour(), t.Minute()}
+	if _, ok := i.doesItFit(times); ok {
+		now := times[4] * 60 + times[5]
+		return i.messages.GetMessage(now), true
 	}
 	return "", false
 }
 
-func (i Interval) doesItFit(t time.Time) ([]Bits, bool) {
-	// Convert time to array of integer, weekdays from 1 to 7
-	times := []int{t.Year(), int(t.Month()), t.Day(), (int(t.Weekday())+6)%7+1, t.Hour(), t.Minute()}
+// does the given time fits in the intervalBits
+func (i *Interval) doesItFit(times []int) ([]Bits, bool) {
+	// check each intervalBits if it fits with given time
 	if len(times) == len(i.intervals) {
 		fitingInterval := make([]Bits, len(times))
 		for i, bit := range i.intervals {
