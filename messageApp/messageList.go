@@ -1,15 +1,15 @@
 package messageApp
 
 import (
-//	"fmt"
+	//	"fmt"
 	"strconv"
-//	"strings"
+	//	"strings"
 	"sort"
 )
 
 type MessageList struct {
 	messages map[int]string
-	order []int
+	order    []int
 }
 
 // Get a message given minutes
@@ -41,7 +41,7 @@ func NewMessageList(messages *map[string]string) *MessageList {
 	for time, mess := range *messages {
 		hour, _ := strconv.Atoi(time[0:2])
 		min, _ := strconv.Atoi(time[3:5])
-		unit := hour * 60 + min
+		unit := hour*60 + min
 		intKeys[unit] = mess
 		sorted[index] = unit
 		index++

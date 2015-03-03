@@ -8,11 +8,11 @@ import (
 
 type Interval struct {
 	intervals []*IntervalBit
-	messages *MessageList
+	messages  *MessageList
 }
 
 // Create a new Interval
-func NewInterval(s string, messages *map[string]string ) *Interval {
+func NewInterval(s string, messages *map[string]string) *Interval {
 	i := new(Interval)
 	i.intervals = createInterval(s)
 	i.messages = NewMessageList(messages)
@@ -21,9 +21,9 @@ func NewInterval(s string, messages *map[string]string ) *Interval {
 
 func (i *Interval) GetMessage(t time.Time) (string, bool) {
 	// Convert time to array of integer, weekdays from 1 to 7
-	times := []int{t.Year(), int(t.Month()), t.Day(), (int(t.Weekday())+6)%7+1, t.Hour(), t.Minute()}
+	times := []int{t.Year(), int(t.Month()), t.Day(), (int(t.Weekday())+6)%7 + 1, t.Hour(), t.Minute()}
 	if _, ok := i.doesItFit(times); ok {
-		now := times[4] * 60 + times[5]
+		now := times[4]*60 + times[5]
 		return i.messages.GetMessage(now), true
 	}
 	return "", false
@@ -37,7 +37,7 @@ func (i *Interval) doesItFit(times []int) ([]Bits, bool) {
 		for i, bit := range i.intervals {
 			if itFits, ok := bit.DoesItFit(times[i]); ok {
 				fitingInterval[i] = itFits
-			//	fmt.Printf("%d fits in '%s'\n", times[i], itFits)
+				//	fmt.Printf("%d fits in '%s'\n", times[i], itFits)
 			} else {
 				fmt.Printf("%d does not fit in '%s'\n", times[i], bit)
 				return []Bits{}, false
@@ -61,7 +61,7 @@ func createInterval(s string) []*IntervalBit {
 // pretty print for an Interval
 func (i *Interval) String() string {
 	s := ""
-	for _, val := range(i.intervals) {
+	for _, val := range i.intervals {
 		s += val.String() + " "
 	}
 	return s
