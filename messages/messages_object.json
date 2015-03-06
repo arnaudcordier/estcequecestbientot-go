@@ -1,0 +1,33 @@
+{
+"title"   : "montitre",
+"default" : "mondefaut",
+"messages": [
+		{
+			"interval" : "* * 13-22 5-7 09-20,23 *",
+			"timeline" : {
+				"10:30" : "message1",
+				"11:45" : "message2",
+				"13:12" : "message3",
+				"09:12" : "message4"
+			}
+		},
+		{
+		  "interval" : "* * * 5 15 25",
+			"timeline" : {
+				"00:00" : "quinze heure vingt-cinq"
+			}
+		},
+		{
+			"interval" : "* * * 1-5 * *",
+			"timeline" : {
+				"01:00" : "semaine"
+			}
+		},
+		{
+			"interval" : "* * * 6-7 * *",
+			"timeline" : {
+				"00:00" : "weekend"
+			}
+		}
+	]
+}
