@@ -1,0 +1,57 @@
+{
+"title": "Est-ce que c'est bientôt la pause ?",
+"default": "Non !",
+"messages": [
+		{
+			"interval": "* * * 1 10 *",
+			"timeline": {
+				"10:00": "Oui maintenant :)",
+				"10:30": "Bah c'est lundi, pourquoi pas.",
+				"10:50": "Encore un peu, il faut bien se reposer du week-end !"
+			}
+		},
+		{
+			"interval": "* * * 5 15 *",
+			"timeline": {
+				"15:00": "Oui maintenant :)",
+				"15:30": "Bah c'est vendredi, pourquoi pas.",
+				"15:50": "Encore un peu, il faut bien se reposer avant le week-end !"
+			}
+		},
+		{
+			"interval": "* * * 1-5 * *",
+			"timeline": {
+				"01:00": "Mais dort, voyons.",
+				"02:00": "Si tu ne dors pas, c'est un congé qu'il va falloir prendre.",
+				"06:00": "Attend au moins d'être au boulot.",
+				"09:00": "Pas encore.",
+				"09:50": "Non, mais c'est très très bientôt.",
+				"10:00": "Oui maintenant :)",
+				"10:30": "Non c'est fini.",
+				"11:00": "Pas encore patiente.",
+				"12:00": "Non, mais c'est bientôt l'heure du miam",
+				"12:30": "Pause déjeuner, oui !",
+				"12:40": "À taaaaable.",
+				"13:00": "Ben oui, café, clope, tout ça…",
+				"13:30": "Bosses un peu voyons !",
+				"14:55": "Non, mais c'est très très bientôt.",
+				"15:00": "Oui maintenant \\o/",
+				"15:20": "Non c'est fini.",
+				"16:00": "Non désolé. C'est long une journée, hein ?",
+				"17:00": "Non, mais c'est bientôt la quille.",
+				"17:30": "Sort d'ici vite fait !",
+				"18:00": "Attends demain !",
+				"19:00": "Non, mais c'est l'heure de l'apéro \\o/",
+				"20:30": "Attends demain !",
+				"22:30": "Décroche un peu du boulot et attends demain !",
+				"23:50": "Un dernier verre, et au lit."
+			}
+		},
+		{
+			"interval": "* * * 6-7 * *",
+			"timeline": {
+				"00:00": "C'est le week-end gros naze !"
+			}
+		}
+	]
+}

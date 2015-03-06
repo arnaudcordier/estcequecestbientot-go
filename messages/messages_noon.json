@@ -1,0 +1,24 @@
+{
+"title": "Is it noon ?",
+"default": "No",
+"messages": [
+		{
+			"interval": "* * * 1-5 * *",
+			"timeline": {
+				"04:00": "No wait !",
+				"12:00": "Yes it is !",
+				"13:00": "Wait until tomorrow !"
+			},
+			"relative": false
+		},
+		{
+			"interval": "* * * 6-7 * *",
+			"timeline": {
+				"04:00": "Go to spleed again",
+				"14:00": "Yes it is, during week-end noon is late !",
+				"20:00": "Go party, it's week-end !"
+			},
+			"relative": false
+		}
+	]
+}

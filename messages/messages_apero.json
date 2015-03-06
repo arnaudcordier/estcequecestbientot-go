@@ -1,0 +1,21 @@
+{
+"title": "Est-ce que c'est bientôt l'apéro ?",
+"default": "Non !",
+"messages": [
+		{
+			"interval": "* * * 1-5 * *",
+			"timeline": {
+				"18:15": "Oui bientôt",
+				"19:00": "Oui, c'est l'apéro !",
+				"21:00": "Attend demain"
+			}
+		},
+		{
+			"interval": "* * * 6-7 * *",
+			"timeline": {
+				"12:00": "Oui, c'est l'apéro !",
+				"23:00": "Attend demain"
+			}
+		}
+	]
+}
