@@ -44,7 +44,7 @@ func (e *Estcequecest) String() string {
 
 func (e *Estcequecest) getMessageAtTime(t time.Time) (title string, message string) {
 	for _, message := range e.messages {
-		if mess, ok := message.getMessageAtTime(t); ok {
+		if mess, ok := message.getMessageAtTime(t); ok && mess != "" {
 			return e.title, mess
 		}
 	}
