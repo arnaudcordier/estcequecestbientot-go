@@ -32,7 +32,7 @@ var (
 	}
 )
 
-func (i *interval) DoesItFit(time int) (bit, bool) {
+func (i *interval) doesItFit(time int) (bit, bool) {
 	for _, b := range i.bits {
 		if b.all == true || (b.min <= time && time <= b.max) {
 			return b, true
@@ -53,8 +53,8 @@ func newInterval(s string, pos int) *interval {
 	return i
 }
 
-// create an array of intervals from a string like '6,45-50,*'
-// uses a Bits "boundary" to validate the interval
+// create an array of bit from a string like '6,45-50,*'
+// uses bit "boundary" to validate the interval
 func createBits(s string, boundary bit) []bit {
 	bits := strings.Split(s, ",")
 	allBits := make([]bit, len(bits))
@@ -74,6 +74,7 @@ func createBits(s string, boundary bit) []bit {
 		} else {
 			thisBit.max, _ = strconv.Atoi(strings.Trim(parts[1], " "))
 		}
+		// valid if min and max fit in boundary
 		if boundary.min <= thisBit.min && thisBit.min <= boundary.max &&
 			boundary.min <= thisBit.max && thisBit.max <= boundary.max {
 			allBits[nValidBits] = thisBit

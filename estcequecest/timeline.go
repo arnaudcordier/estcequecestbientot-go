@@ -12,7 +12,7 @@ type timeline struct {
 }
 
 // Get a message given minutes
-func (tl *timeline) GetMessage(unit int) string {
+func (tl *timeline) getMessage(unit int) string {
 	for _, minutes := range tl.order {
 		if minutes <= unit {
 			return tl.messages[minutes]

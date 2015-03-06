@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"time"
 )
 
 var ErrBadJson = errors.New("bad json data")
@@ -63,13 +64,28 @@ func (app *App) Load(name string) error {
 	return nil
 }
 
+func (app *App) GetMessages() [][]string {
+	t := time.Now()
+	return app.GetMessagesAtTime(t)
+}
+
+func (app *App) GetMessagesAtTime(t time.Time) [][]string {
+	messages := make([][]string, len(app.loaded))
+	for index, name := range app.loaded {
+		title, message := app.estcequecest[name].getMessageAtTime(t)
+		messages[index] = []string{title, message}
+	}
+	return messages
+}
+
+// prety print
 func (app *App) String() string {
 	s := fmt.Sprintf("pattern: %s", app.pattern)
 	if len(app.loaded) > 0 {
 		s = s + "\nloaded Estcequecest :\n"
 		for _, name := range app.loaded {
 			s = s + "** " + name + " **\n"
-			s = s + app.estcequecest[name].String() + "\n"
+			s = s + app.estcequecest[name].String()
 		}
 	}
 	return s
@@ -77,5 +93,3 @@ func (app *App) String() string {
 
 // (App) Unload(name) error
 // (App) List() []string, []string
-// (App) Get() []messages
-// (App) GetAtTime(time) []messages

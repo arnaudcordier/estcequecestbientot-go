@@ -2,8 +2,7 @@ package estcequecest
 
 import (
 	"fmt"
-	//	"strings"
-	// 	"time"
+	"time"
 )
 
 // types for the json configuration data
@@ -43,14 +42,14 @@ func (e *Estcequecest) String() string {
 	return s
 }
 
-// func (e *Estcequecest) GetAtTime(t time.Time) (title string, message string) {
-// 	for _, i := range e.messages {
-// 		if mess, ok := i.getAtTime(t); ok {
-// 			return e.title, mess
-// 		}
-// 	}
-// 	if e.defaultMessage != "" {
-// 		return e.title, e.defaultMessage
-// 	}
-// 	return "", ""
-// }
+func (e *Estcequecest) getMessageAtTime(t time.Time) (title string, message string) {
+	for _, message := range e.messages {
+		if mess, ok := message.getMessageAtTime(t); ok {
+			return e.title, mess
+		}
+	}
+	if e.defaultMessage != "" {
+		return e.title, e.defaultMessage
+	}
+	return "", ""
+}
