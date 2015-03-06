@@ -1,10 +1,9 @@
 package estcequecest
 
 import (
-	//	"fmt"
-	"strconv"
-	//	"strings"
+	"fmt"
 	"sort"
+	"strconv"
 )
 
 type timeline struct {
@@ -14,9 +13,9 @@ type timeline struct {
 
 // Get a message given minutes
 func (tl *timeline) GetMessage(unit int) string {
-	for _, time := range tl.order {
-		if time <= unit {
-			return tl.messages[time]
+	for _, minutes := range tl.order {
+		if minutes <= unit {
+			return tl.messages[minutes]
 		}
 	}
 	return ""
@@ -25,9 +24,10 @@ func (tl *timeline) GetMessage(unit int) string {
 // Pretty print
 func (tl *timeline) String() string {
 	txt := ""
-	for _, time := range tl.order {
-		unit := strconv.Itoa(time/60) + ":" + strconv.Itoa(time%60)
-		txt += unit + ":" + tl.messages[time] + "\n"
+	n := len(tl.order)
+	for i := n - 1; i >= 0; i -= 1 {
+		minutes := tl.order[i]
+		txt += fmt.Sprintf("%02d:%02d : '%s'\n", minutes/60, minutes%60, tl.messages[minutes])
 	}
 	return txt
 }
@@ -41,9 +41,9 @@ func newTimeline(messages map[string]string) *timeline {
 	for time, mess := range messages {
 		hour, _ := strconv.Atoi(time[0:2])
 		min, _ := strconv.Atoi(time[3:5])
-		unit := hour*60 + min
-		intKeys[unit] = mess
-		sorted[index] = unit
+		minutes := hour*60 + min
+		intKeys[minutes] = mess
+		sorted[index] = minutes
 		index++
 	}
 	sort.Sort(sort.Reverse(sort.IntSlice(sorted)))
