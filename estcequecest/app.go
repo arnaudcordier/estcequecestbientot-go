@@ -72,7 +72,7 @@ func (app *App) GetMessages() [][]string {
 func (app *App) GetMessagesAtTime(t time.Time) [][]string {
 	messages := make([][]string, len(app.loaded))
 	for index, name := range app.loaded {
-		title, message := app.estcequecest[name].getMessageAtTime(t)
+		title, message := app.estcequecest[name].GetMessageAtTime(t)
 		messages[index] = []string{title, message}
 	}
 	return messages
