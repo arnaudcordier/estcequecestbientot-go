@@ -3,8 +3,10 @@ package main
 
 import (
 	"estcequecestbientot/estcequecest"
+	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 )
 
 var app *estcequecest.App
@@ -15,7 +17,14 @@ func main() {
 	app.Load("apero")
 
 	http.HandleFunc("/", index)
-	http.ListenAndServe(":8080", nil)
+
+	port := os.Getenv("PORT")
+	if len(port) == 0 {
+		port = "8080"
+	}
+	host := os.Getenv("HOST")
+	fmt.Println("App running on " + host + ":" + port)
+	http.ListenAndServe(host+":"+port, nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
