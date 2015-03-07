@@ -39,6 +39,22 @@ func NewApp(dir string, pattern string) *App {
 	return app
 }
 
+// get list of estcequecest messages for now
+func (app *App) GetMessages() [][]string {
+	t := time.Now()
+	return app.GetMessagesAtTime(t)
+}
+
+// get list of estcequecest messages for the given time
+func (app *App) GetMessagesAtTime(t time.Time) [][]string {
+	messages := make([][]string, len(app.loaded))
+	for index, name := range app.loaded {
+		title, message := app.estcequecest[name].GetMessageAtTime(t)
+		messages[index] = []string{title, message}
+	}
+	return messages
+}
+
 // create a new estcequecest from a json file
 func (app *App) Load(name string) error {
 	// check if name is an existing estcequecest
@@ -53,9 +69,9 @@ func (app *App) Load(name string) error {
 		return nil
 	}
 
+	// open and parse json file
 	filename := app.pattern + name + ".json"
 	str, _ := ioutil.ReadFile(filename)
-
 	var data estcequecestData
 	er := json.Unmarshal(str, &data)
 	if er != nil {
@@ -78,21 +94,24 @@ func (app *App) Load(name string) error {
 	return nil
 }
 
-func (app *App) GetMessages() [][]string {
-	t := time.Now()
-	return app.GetMessagesAtTime(t)
-}
-
-func (app *App) GetMessagesAtTime(t time.Time) [][]string {
-	messages := make([][]string, len(app.loaded))
-	for index, name := range app.loaded {
-		title, message := app.estcequecest[name].GetMessageAtTime(t)
-		messages[index] = []string{title, message}
+// unload an estcequecest
+func (app *App) Unload(name string) error {
+	if _, ok := app.estcequecest[name]; ok {
+		delete(app.estcequecest, name)
+		loaded := make([]string, len(app.loaded)-1)
+		index := 0
+		for _, n := range app.loaded {
+			if n != name {
+				loaded[index] = n
+				index += 1
+			}
+		}
+		app.loaded = loaded
 	}
-	return messages
+	return nil
 }
 
-// Return two lists : notloaded names of estcequecest and loaded ones
+// Return lists of notloaded names of estcequecest and loaded ones
 func (app *App) List() ([]string, []string) {
 	allNames := app.listNames()
 	notloaded := make([]string, len(allNames)-len(app.loaded))
@@ -129,5 +148,3 @@ func (app *App) String() string {
 	}
 	return s
 }
-
-// (App) Unload(name) error
