@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Est-ce que c'est bientôt ? Charger les messages !</title>
+	</head>
+	<body>
+		{{ if .loaded }}
+			<h1>Unload theses messages</h1>
+			<ul>
+			{{ range .loaded }}
+				<li>
+					<a href="unload/{{ . }}">{{ . }}</a>
+				</li>
+			{{ end }}
+			</ul>
+		{{ end }}
+		{{ if .notloaded }}
+			<h1>Load theses messages</h1>
+			<ul>
+			{{ range .notloaded }}
+				<li>
+					<a href="load/{{ . }}">{{ . }}</a>
+				</li>
+			{{ end }}
+			</ul>
+		{{ end }}
+	</body>
+</html>
