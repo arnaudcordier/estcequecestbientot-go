@@ -11,6 +11,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -76,6 +78,31 @@ func (app *App) GetMessagesAtTime(t time.Time) [][]string {
 		messages[index] = []string{title, message}
 	}
 	return messages
+}
+
+// Return two lists : notloaded names of estcequecest and loaded ones
+func (app *App) List() ([]string, []string) {
+	allNames := app.listNames()
+	notloaded := make([]string, len(allNames)-len(app.loaded))
+	index := 0
+	for _, name := range allNames {
+		if _, ok := app.estcequecest[name]; !ok {
+			notloaded[index] = name
+			index += 1
+		}
+	}
+	return notloaded, app.loaded
+}
+
+// return a list of available estcequecest names
+func (app *App) listNames() []string {
+	files, _ := filepath.Glob(app.pattern + "*.json")
+	for index, name := range files {
+		name = strings.Replace(name, app.pattern, "", 1)
+		name = strings.Replace(name, ".json", "", 1)
+		files[index] = name
+	}
+	return files
 }
 
 // prety print

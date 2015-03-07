@@ -7,11 +7,12 @@ import (
 
 func main() {
 	app := estcequecest.NewApp("messages", "messages_")
-	app.Load("object")
+	// 	app.Load("object")
 	app.Load("noon")
 	app.Load("apero")
 	app.Load("pause")
-	fmt.Printf("%s", app)
+	list, list2 := app.List()
+	fmt.Printf("%v %v", list, list2)
 	messages := app.GetMessages()
 	fmt.Printf("Messages : %v\n", messages)
 }
