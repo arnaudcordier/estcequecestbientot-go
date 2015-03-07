@@ -41,6 +41,18 @@ func NewApp(dir string, pattern string) *App {
 
 // create a new estcequecest from a json file
 func (app *App) Load(name string) error {
+	// check if name is an existing estcequecest
+	exists := false
+	for _, n := range app.listNames() {
+		if n == name {
+			exists = true
+			break
+		}
+	}
+	if !exists {
+		return nil
+	}
+
 	filename := app.pattern + name + ".json"
 	str, _ := ioutil.ReadFile(filename)
 
@@ -119,4 +131,3 @@ func (app *App) String() string {
 }
 
 // (App) Unload(name) error
-// (App) List() []string, []string
