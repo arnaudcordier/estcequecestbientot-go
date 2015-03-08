@@ -4,8 +4,8 @@
 package main
 
 import (
-	"github.com/arnaudcordier/estcequecestbientot-go/estcequecest"
 	"fmt"
+	"github.com/arnaudcordier/estcequecestbientot-go/estcequecest"
 	"html/template"
 	"net/http"
 	"os"
