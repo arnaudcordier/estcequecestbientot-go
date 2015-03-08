@@ -4,7 +4,7 @@
 package main
 
 import (
-	"estcequecestbientot/estcequecest"
+	"github.com/arnaudcordier/estcequecestbientot-go/estcequecest"
 	"fmt"
 	"html/template"
 	"net/http"
